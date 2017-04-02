@@ -6,14 +6,12 @@
 package org.sgvComercial.mb;
 
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.context.RequestContext;
+
 import org.sgvComercial.dao.ProdutoDAO;
 
 import org.sgvComercial.modelo.Produto;
@@ -22,9 +20,10 @@ import org.sgvComercial.modelo.Produto;
  *
  * @author lucas
  */
+//@Named(value = "mbCadastrarProduto")
 @Named(value = "mbCadastrarProduto")
 @RequestScoped
-public class CadastrarProduto {
+public class CadastrarProdutoBean {
 
     Produto produto = new Produto();
 
@@ -33,20 +32,11 @@ public class CadastrarProduto {
 
     public void adicionar() {
         produtoDAO.salvar(produto);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Data Saved"));
-        
-
+//        System.out.println(produto);
     }
 
     public Produto getProduto() {
         return produto;
     }
-    
-    public void reset(){
-        produto.setNome(null);
-        produto.setDescricao(null);
-    }
-
-    
 
 }

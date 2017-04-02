@@ -18,8 +18,6 @@ import javax.persistence.Id;
 @Entity
 public class Produto implements Serializable {
 
-//    @Id  
-//    @GeneratedValue(generator = "SequenceContratante")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

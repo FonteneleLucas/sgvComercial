@@ -5,37 +5,100 @@
       xmlns:f="http://java.sun.com/jsf/core"  
       xmlns:p="http://primefaces.org/ui"> 
     <h:head>
-
+        <link rel="stylesheet" href="CSS/style.css"/>
     </h:head>
     <h:body>
-        <div style="width: 400px"> 
-            <h:form id="form">
-                <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
-                <p:panelGrid id="panel" columns="2">
 
-                    <p:outputLabel>Nome: </p:outputLabel>
-                    <p:inputText id="nome" value="#{mbCadastrarProduto.produto.nome}" required="true" requiredMessage="O campo nome é obrigatorio!"/>
+        <p:layout fullPage="false">
 
-                    <p:outputLabel>Descrição: </p:outputLabel>
-                    <p:inputTextarea rows="2" cols="21" value="#{mbCadastrarProduto.produto.descricao}" />
+            <p:layoutUnit position="north" size="100" header="PAINEL DE ADMINISTRATIVO"  resizable="false" closable="false" collapsible="false">
 
-                    <p:outputLabel>Categoria: </p:outputLabel>
-                    <p:inputText value="#{mbCadastrarProduto.produto.categoria}" required="true" requiredMessage="A categoria é obrigatoria!"/>
+                <div class="divLeft paddingLeft">
+                    <p>#{dataAndTime.dataAtual}</p>
+                </div>
 
-                    <p:outputLabel>Quantidade: </p:outputLabel>
-                    <p:spinner value="#{mbCadastrarProduto.produto.quantidade}" required="true" requiredMessage="É necessario informar a quantidade disponivel do produto!"/>
+                <div class="divRight paddingRight">RIGHT</div>
 
-                    <p:outputLabel>Preço:</p:outputLabel>
-                    <p:inputNumber value="#{mbCadastrarProduto.produto.preco}" required="true" requiredMessage="O preço é obrigatorio!"/>
+            </p:layoutUnit>
 
-                    <p></p>
-                    <p:commandButton value="Cadastrar" update="panel" action="#{mbCadastrarProduto.adicionar()}" style="width: 230px !important;">
+            <!--<p:layoutUnit position="south" styleClass="teste" size="100" header="null" resizable="false" closable="false" collapsible="false">-->
+                
+            <!--</p:layoutUnit>-->
 
-                    </p:commandButton>
+            <p:layoutUnit style="height: 100px !important" position="west" size="200" header="Left" resizable="true" closable="false" collapsible="true">
+                <p:panelMenu>
+                    <p:submenu label="Pedidos" >
+                        <p:menuitem value="Novo pedido" outcome="index.jsf" icon="fa fa-paper-plane" />
+                        <p:menuitem value="Gerenciamento" outcome="index.jsf" icon="fa fa-paper-plane" />
+                    </p:submenu>
+                    <p:submenu label="Buscar">
+                        <p:menuitem value="Produto no estoque" outcome="index.jsf"  ajax="false" icon="fa fa-chevron-down"/>
+                        <p:menuitem value="Recebedores" outcome="index.jsf"  ajax="false" icon="fa fa-child"/>
+                    </p:submenu>
+                    <p:submenu label="Mais" >
+                        <p:menuitem value="Lembretes" outcome="index.jsf" icon="fa fa-leanpub" />
+                        <p:menuitem value="Mensagem direta" outcome="index.jsf" icon="fa fa-comments" />
+                        <p:submenu label="Perfil" >
+                            <p:menuitem value="Editar" outcome="index.jsf" icon="fa fa-edit" />
+                            <p:menuitem value="Sair" outcome="/index.html" icon="fa fa-user" />
+                        </p:submenu>
+                    </p:submenu>
+                </p:panelMenu>
+            </p:layoutUnit>
 
+            <p:layoutUnit position="center">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true" />
+                    <p:dataTable id="dtContratantes" var="produto" widgetVar="produtosTable"
+                                 value="#{mbListarProdutos.produtos}"
+                                 paginator="true" rows="5"
+                                 emptyMessage="sem registros"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Pesquisar em todos os campos:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('produtosTable').filter()" style="width:150px" placeholder="Pressione uma tecla"/>
+                            </p:outputPanel>
+                        </f:facet>
 
-                </p:panelGrid>
-            </h:form>
+                        <p:column headerText="ID">
+                            <h:outputText value="#{produto.id}"/>
+                        </p:column>
+                        <p:column headerText="Nome" sortBy="#{produto.nome}"
+                                  filterBy="#{produto.nome}" filterMatchMode="contains">
+                            <h:outputText value="#{produto.nome}"/>
+                        </p:column>
+                        <p:column headerText="Descrição">
+                            <h:outputText value="#{produto.descricao}"/>
+                        </p:column>
+
+                        <p:column headerText="Categoria">
+                            <h:outputText value="#{produto.categoria}"/>
+                        </p:column>
+
+                        <p:column headerText="Quantidade Restante">
+                            <h:outputText value="#{produto.quantidade}"/>
+                        </p:column>
+
+                        <p:column headerText="Preço">
+                            <h:outputText value="#{produto.preco}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            No total temos #{mbListarProdutos.produtos.size()} Produtos.
+                        </f:facet>
+                    </p:dataTable>
+
+                </h:form>
+            </p:layoutUnit>
+            
+
+        </p:layout>
+        <div  class="bottomDiv">
+            teste
         </div>
+
+
+
     </h:body>
 </html>
